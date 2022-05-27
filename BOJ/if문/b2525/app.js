@@ -2,25 +2,17 @@ const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
 let input = fs.readFileSync(filePath).toString().split("\n");
 
-let curHour = input[0].split(" ").map((item) => +item)[0];
-let curMin = input[0].split(" ").map((item) => +item)[1];
-let cookTime = +input[1];
+let hour = +input[0].split(" ")[0];
+let minute = +input[0].split(" ")[1];
+let time = +input[1];
 
-solution(curHour, curMin, cookTime);
+minute = minute + time;
+if (minute >= 60) {
+  hour += Math.floor(minute / 60);
+  minute = minute % 60;
 
-function solution(H, M, T) {
-  if (M + T > 60) {
-    M = M + T - 60;
-    H++;
-    if (M >= 60) {
-      M = M - 60;
-      H++;
-    }
-    if (H >= 23) {
-      H = H - 24;
-    }
-  } else {
-    M += T;
+  if (hour >= 24) {
+    hour -= 24;
   }
-  console.log(H, M);
 }
+console.log(hour, minute);
